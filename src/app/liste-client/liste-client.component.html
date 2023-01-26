@@ -1,0 +1,81 @@
+<h1>Liste de vos clients</h1>
+<div class="card border-0 shadow-lg my-5">
+	<div class="card-body p-5 position-relative pb-5">
+		<table class="table table-striped table-hover">
+			<thead>
+			  <tr>
+				<th scope="col">#</th>
+				<th scope="col">Nom</th>
+				<th scope="col">Prénom</th>
+				<th scope="col">Adresse mail</th>
+				<th scope="col">Pays de résidence</th>
+				<th scope="col">Lien de parenté</th>
+				<th scope="col">Actions</th>
+			  </tr>
+			</thead>
+			<tbody class="align-middle">
+				<tr>
+					<th scope="row">1</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>01/06/2023</td>
+					<td>08/06/2023</td>
+					<td>08/06/2023</td>
+					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
+				</tr>
+				<tr>
+					<th scope="row">1</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>01/06/2023</td>
+					<td>08/06/2023</td>
+					<td>08/06/2023</td>
+					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
+				</tr>
+				<tr>
+					<th scope="row">2</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>01/06/2023</td>
+					<td>08/06/2023</td>
+					<td>08/06/2023</td>
+					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
+				</tr>
+				<tr>
+					<th scope="row">3</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>01/06/2023</td>
+					<td>08/06/2023</td>
+					<td>08/06/2023</td>
+					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
+				</tr>
+				<tr>
+					<th scope="row">4</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>01/06/2023</td>
+					<td>08/06/2023</td>
+					<td>08/06/2023</td>
+					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
+				</tr>
+				
+			</tbody>
+		</table>
+		<ngb-pagination
+			[collectionSize]="120" [page]="1" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+		</ngb-pagination>
+	</div>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-body">
+		<p>Voulez-vous supprimer ce client ?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-dark" (click)="suprimerUtilisateur()">Oui</button>
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close()">Non</button>
+	</div>
+</ng-template>
+
+<app-toast [toast]="toast"></app-toast>

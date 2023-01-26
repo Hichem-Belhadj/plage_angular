@@ -1,0 +1,11 @@
+ngb-toast svg path {
+	fill: #fff;
+}
+
+.toast {
+	position: fixed;
+	bottom: 30px;
+	right: 20px;
+	margin: 0.5em;
+	z-index: 1200;
+}

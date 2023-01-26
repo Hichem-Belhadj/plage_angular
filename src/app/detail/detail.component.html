@@ -1,0 +1,80 @@
+<h1>Détail de la réservation <span [ngClass]="{
+	'statut': true,
+	'a-traiter': statutReservation == 'à traiter',
+	'confirmee': statutReservation == 'confirmée',
+	'refusee': statutReservation == 'refusée'
+}">{{statutReservation}}</span></h1>
+<a routerLink="/liste-reservation" class="btn btn-outline-plage">&#8592; retour à la liste des réservations</a>
+<div class="card border-0 shadow-lg my-5">
+	<div class="card-body p-5 position-relative pb-5">
+		<h5 class="card-title">Réservation n° 1</h5>
+    	<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    	<ul class="list-group mb-3">
+			<li class="list-group-item"><span class="detail-list">nom :</span> BELHADJ</li>
+			<li class="list-group-item"><span class="detail-list">Prénom :</span> Hichem</li>
+			<li class="list-group-item"><span class="detail-list">Date de début :</span> 01/06/2023</li>
+			<li class="list-group-item"><span class="detail-list">Date de fin :</span> 09/06/2023</li>
+			<li class="list-group-item"><span class="detail-list">Remarques :</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias vitae.</li>
+			<li *ngIf="statutReservation == 'confirmée'" class="list-group-item"><span class="detail-list">Liste des parasols :</span> 9F1 - 8F1</li>
+			<li class="list-group-item"><span class="detail-list">Montant :</span> 250 €</li>
+		</ul>
+
+		<form #f="ngForm" *ngIf="statutReservation == 'à traiter'">
+			<div class="affectation mb-3">
+				<p class="card-text">Liste des parasols à affecter :</p>
+				<ul class="list-group">
+					<li class="list-group-item d-flex align-items-center"><span class="detail-list">Parasol 1 - File 1 :</span>
+						<div class="radio">
+							<input type="radio" ngModel required id="p1f1-1" name="aa" value="1">
+							<label ngbTooltip="9F1" tooltipClass="my-custom-class" for="p1f1-1"></label>
+						</div>
+						<div class="radio">
+							<input type="radio" ngModel required id="p1f1-2" name="aa" value="2">
+							<label for="p1f1-2"></label>
+						</div>
+						<div class="radio">
+							<input type="radio" ngModel required id="p1f1-3" name="aa" value="3">
+							<label for="p1f1-3"></label>
+						</div>
+						<div class="radio">
+							<input type="radio" ngModel required id="p1f1-4" name="aa" value="4">
+							<label for="p1f1-4"></label>
+						</div>
+					</li>
+					<li class="list-group-item d-flex align-items-center"><span class="detail-list">Parasol 2 - File 1 :</span>
+						<div class="radio">
+							<input type="radio" ngModel required id="p2f1-1" name="bb" value="1">
+							<label for="p2f1-1"></label>
+						</div>
+						<div class="radio">
+							<input type="radio" ngModel required id="p2f1-2" name="bb" value="2">
+							<label for="p2f1-2"></label>
+						</div>
+						<div class="radio">
+							<input type="radio" ngModel required id="p2f1-3" name="bb" value="3">
+							<label for="p2f1-3"></label>
+						</div>
+						<div class="radio">
+							<input type="radio" ngModel required id="p2f1-4" name="bb" value="4">
+							<label for="p2f1-4"></label>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<button type="button" [disabled]="" (click)="confirmerReservation(f)" class="btn btn-primary me-3">Valider</button>
+			<button type="button" (click)="modalService.open(modal)" class="btn btn-danger me-3">Refuser</button>
+		</form>
+	</div>
+</div>
+
+<ng-template #modal let-modal>
+	<div class="modal-body">
+		<p>Voulez-vous refuser cette réservation ?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-dark" (click)="refuserReservation()">Oui</button>
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close()">Non</button>
+	</div>
+</ng-template>
+
+<app-toast [toast]="toast"></app-toast>
