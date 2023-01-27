@@ -1,0 +1,83 @@
+.detail-list {
+	font-weight: 900;
+	display: inline-block;
+	min-width: 150px;
+}
+.affectation input[type=radio] {
+	display: none;
+}
+.affectation label {
+	position: relative;
+}
+.affectation label::before {
+    content: "";
+    display: inline-block;
+    margin-left: 10px;
+	width: 50px;
+	height: 50px;
+	background-color: transparent;
+	border-radius: 10px;
+	border: 3px solid #DEDEDD;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+.affectation label:hover::before {
+	background-color: #f1f1f1;
+}
+
+.affectation input[type=radio]:checked + label::before {
+	background-color: #ECE4F7;
+	border: 3px solid #573474;
+}
+
+.planning-item {
+	display: inline-block;
+	margin-left: 30px;
+	width: 50px;
+	height: 50px;
+}
+.planning-item:not(.empty) {
+	background-color: transparent;
+	border-radius: 10px;
+	border: 3px solid #DEDEDD;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+.planning-item.booked {
+	background-color: #ECE4F7;
+	border-radius: 10px;
+	border: 3px solid #573474;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+.planning-item:not(.empty):hover {
+	background-color: #f1f1f1;
+}
+.planning-item.booked:hover {
+	background-color: #826d9f;
+}
+
+/* Statut */
+
+.statut {
+	padding: 5px 10px;
+	border-radius: 10px;
+	font-size: 15px;
+	vertical-align: middle;
+	margin-left: 20px;
+}
+.statut.confirmee {
+	background-color: #81C784;
+	color: #1B5E20;
+	border: 2px solid #1B5E20;
+}
+.statut.a-traiter {
+	background-color: #FFCC80;
+	color: #E65100;
+	border: 2px solid #E65100;
+}
+.statut.refusee {
+	background-color: #E57373;
+	color: #B71C1C;
+	border: 2px solid #B71C1C;
+}

@@ -1,0 +1,29 @@
+.planning-item {
+	display: block;
+	width: 50px;
+	height: 50px;
+}
+.planning-item:not(.empty) {
+	background-color: transparent;
+	border-radius: 10px;
+	border: 3px solid #DEDEDD;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+.planning-item.booked {
+	background-color: #ECE4F7;
+	border-radius: 10px;
+	border: 3px solid #573474;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+.planning-item:not(.empty):hover {
+	background-color: #f1f1f1;
+}
+.planning-item.booked:hover {
+	background-color: #826d9f;
+}
+#button-addon {
+	border-color: transparent;
+	background-color: transparent;
+}

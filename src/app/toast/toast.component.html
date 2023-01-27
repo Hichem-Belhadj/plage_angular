@@ -1,0 +1,10 @@
+<ngb-toast
+	*ngIf="toast.show" 
+	[class]="toast.class"
+	[autohide]="true"
+	[delay]="3000"
+	(hidden)="toast.show=false">
+	<div class="me-auto">
+		{{toast.message}}
+	</div>
+</ngb-toast>

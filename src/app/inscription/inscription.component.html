@@ -1,0 +1,81 @@
+<h1>Inscription</h1>
+<div class="card col-md-6 col-12 border-0 shadow-lg my-5">
+	<div class="card-body p-5 position-relative pb-5">
+		<div [ngClass]="{
+			invalid: utilService.entreeInvalide(formulaireInscription.get('modelDateDebut')) || utilService.entreeInvalide(formulaireInscription.get('modelDateFin')) || utilService.entreeInvalide(formulaireInscription.get('parasol1'))
+		}" class="user-icon p-4 bg-white border-3 position-absolute top-0 start-50 translate-middle">
+			<img src="../../assets/images/registration.svg" width="120" class="img-fluid" alt="">
+		</div>
+		<form [formGroup]="formulaireInscription" (ngSubmit)="inscription()">
+			<div class="row g-2 my-3">
+				<div class="col-md">
+				  	<div class="form-floating">
+						<input type="text" class="form-control" formControlName="nom" id="floatingInputGrid">
+						<label for="floatingInputGrid">Nom</label>
+				  	</div>
+				  	<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('nom'))" class="form-text text-danger">
+						<span>Veuillez saisir votre nom.</span>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="form-floating">
+					  <input type="text" class="form-control" formControlName="prenom" id="floatingInputGrid">
+					  <label for="floatingInputGrid">Prénom</label>
+					</div>
+					<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('prenom'))" class="form-text text-danger">
+					  <span>Veuillez saisir votre prénom.</span>
+				  </div>
+				</div>
+			</div>
+			<div class="row g-2 my-3">
+				<div class="col-md">
+				  	<div class="form-floating">
+						<input type="text" class="form-control" formControlName="email" id="floatingInputGrid">
+						<label for="floatingInputGrid">Adresse email</label>
+				  	</div>
+				  	<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('email'))" class="form-text text-danger">
+						<span *ngIf="formulaireInscription.get('email')?.errors?.['required']">Veuillez saisir un email.</span>
+						<span *ngIf="formulaireInscription.get('email')?.errors?.['email']">Veuillez saisir un email au bon format.</span>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="form-floating">
+					  <input type="email" class="form-control" formControlName="pays" id="floatingInputGrid">
+					  <label for="floatingInputGrid">Pays de résidence</label>
+					</div>
+					<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('pays'))" class="form-text text-danger">
+					  <span>Veuillez saisir votre pays.</span>
+				  	</div>
+				</div>
+			</div>
+			<div class="row g-2 my-3">
+				<div class="col-md">
+					<div class="form-floating">
+						<select class="form-select" id="floatingSelectGrid" formControlName="lienDeParente" aria-label="Floating label select example">
+							<option></option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
+						<label for="floatingSelectGrid">Lien de parenté</label>
+					</div>
+					<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('lienDeParente'))" class="form-text text-danger">
+					  <span>Veuillez choisir un lien de parenté.</span>
+				  	</div>
+				</div>
+				<div class="col-md">
+				  	<div class="form-floating">
+						<input type="password" class="form-control" formControlName="motDePasse" id="floatingInputGrid">
+						<label for="floatingInputGrid">Mot de passe</label>
+				  	</div>
+				  	<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('motDePasse'))" class="form-text text-danger">
+						<span *ngIf="formulaireInscription.get('motDePasse')?.errors?.['required']">Veuillez saisir un mot de passe.</span>
+						<span *ngIf="formulaireInscription.get('motDePasse')?.errors?.['minlength']">Veuillez saisir 8 caractères minimum.</span>
+					</div>
+				</div>
+			</div>
+			
+			<button [disabled]="formulaireInscription.invalid" type="submit" class="btn btn-outline-plage btn-lg w-100 mt-4">inscription</button>
+		  </form>
+	</div>
+</div>

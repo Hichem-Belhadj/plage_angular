@@ -1,0 +1,28 @@
+<h1>Connexion</h1>
+<div class="card col-md-6 col-12 border-0 shadow-lg my-5">
+	<div class="card-body p-5 position-relative pb-5">
+		<div [ngClass]="{
+			invalid: utilService.entreeInvalide(formulaireConnexion.get('email')) || utilService.entreeInvalide(formulaireConnexion.get('motDePasse'))
+		}" class="user-icon p-4 bg-white border-3 position-absolute top-0 start-50 translate-middle">
+			<img src="../../assets/images/user.svg" width="120" class="img-fluid" alt="">
+		</div>
+		<form [formGroup]="formulaireConnexion" (ngSubmit)="connexion()">
+			<div class="form-floating mt-4">
+				<input type="email" formControlName="email" class="form-control" id="email">
+				<label for="email">Adresse email</label>
+			</div>
+			<div *ngIf="utilService.entreeInvalide(formulaireConnexion.get('email'))" class="form-text text-danger">
+				<span *ngIf="formulaireConnexion.get('email')?.errors?.['required']">Veuillez saisir une adresse email.</span>
+				<span *ngIf="formulaireConnexion.get('email')?.errors?.['email']">Veuillez saisir une adresse email au bon format.</span>
+			</div>
+			<div class="form-floating mt-4">
+				<input formControlName="motDePasse" type="password" class="form-control" id="motDePasse">
+				<label for="motDePasse">Mot de passe</label>
+			</div>
+			<div *ngIf="utilService.entreeInvalide(formulaireConnexion.get('motDePasse'))" class="form-text text-danger">
+				<span *ngIf="formulaireConnexion.get('motDePasse')?.errors?.['required']">Veuillez saisir un mot de passe.</span>
+			</div>
+			<button [disabled]="formulaireConnexion.invalid" type="submit" class="btn btn-outline-plage btn-lg w-100 mt-4">Connexion</button>
+		  </form>
+	</div>
+</div>

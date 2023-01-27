@@ -1,0 +1,19 @@
+.statut {
+	padding: 5px 10px;
+	border-radius: 10px;
+}
+.statut.confirmee {
+	background-color: #81C784;
+	color: #1B5E20;
+	border: 2px solid #1B5E20;
+}
+.statut.a-traiter {
+	background-color: #FFCC80;
+	color: #E65100;
+	border: 2px solid #E65100;
+}
+.statut.refusee {
+	background-color: #E57373;
+	color: #B71C1C;
+	border: 2px solid #B71C1C;
+}
