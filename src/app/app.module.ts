@@ -17,6 +17,9 @@ import { ListeClientComponent } from './liste-client/liste-client.component';
 import { ListeReservationComponent } from './liste-reservation/liste-reservation.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastComponent } from './toast/toast.component';
+import { tokenInterceptorProvider } from './interceptor/auth.interceptor';
+import { LettreCapitalePipe } from './pipe/lettre-capitale.pipe';
+import { FiltrerPaysPipe } from './pipe/filtrer-pays.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import { ToastComponent } from './toast/toast.component';
     DetailComponent,
     ListeClientComponent,
     ListeReservationComponent,
-    ToastComponent
+    ToastComponent,
+    LettreCapitalePipe,
+    FiltrerPaysPipe
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,9 @@ import { ToastComponent } from './toast/toast.component';
 	FormsModule,
 	HttpClientModule
   ],
-  providers: [],
+  providers: [
+	tokenInterceptorProvider,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

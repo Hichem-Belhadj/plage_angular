@@ -6,6 +6,9 @@
 		}" class="user-icon p-4 bg-white border-3 position-absolute top-0 start-50 translate-middle">
 			<img src="../../assets/images/user.svg" width="120" class="img-fluid" alt="">
 		</div>
+		<div *ngIf="redirection" class="alert alert-primary" role="alert">
+			Vous devez vous connecter pour procéder à une réservation !
+		</div>
 		<form [formGroup]="formulaireConnexion" (ngSubmit)="connexion()">
 			<div class="form-floating mt-4">
 				<input type="email" formControlName="email" class="form-control" id="email">
@@ -26,3 +29,5 @@
 		  </form>
 	</div>
 </div>
+
+<app-toast [toast]="toast"></app-toast>

@@ -33,7 +33,7 @@
 .nav-item a {
 	font-weight: bold;
 }
-.nav-item a.active,
+.navbar-nav .nav-link.active,
 .nav-item a:hover {
 	color: #6D57A5;
 }

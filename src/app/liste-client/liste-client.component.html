@@ -1,5 +1,9 @@
 <h1>Liste de vos clients</h1>
-<div class="card border-0 shadow-lg my-5">
+<div class="col-md-4 col-12 form-floating mb-3 mt-5">
+	<input #champPays (keyup)="filtrerParPays(champPays.value)" [(ngModel)]="pays" type="text" class="form-control" id="floatingInput">
+	<label for="floatingInput">Filtrer par pays</label>
+</div>
+<div class="card border-0 shadow-lg">
 	<div class="card-body p-5 position-relative pb-5">
 		<table class="table table-striped table-hover">
 			<thead>
@@ -7,63 +11,40 @@
 				<th scope="col">#</th>
 				<th scope="col">Nom</th>
 				<th scope="col">Prénom</th>
-				<th scope="col">Adresse mail</th>
+				<th scope="col">Adresse email</th>
+				<th role="button" (click)="trierTableau('dateHeureInscription')" scope="col">
+					Date d'inscription
+					<img [ngClass]="{'d-none': parametrePage.trierPar=='desc'}" width="15" src="../../assets/images/arrow-down.svg">
+					<img [ngClass]="{'d-none': parametrePage.trierPar!='desc'}" width="15" src="../../assets/images/arrow-top.svg">
+				</th>
 				<th scope="col">Pays de résidence</th>
 				<th scope="col">Lien de parenté</th>
 				<th scope="col">Actions</th>
 			  </tr>
 			</thead>
 			<tbody class="align-middle">
-				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>08/06/2023</td>
-					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
+				<tr *ngFor="let locataire of locataires">
+					<th scope="row">{{locataire.id}}</th>
+					<td>{{locataire.nom}}</td>
+					<td>{{locataire.prenom}}</td>
+					<td>{{locataire.email}}</td>
+					<td>{{locataire.dateHeureInscription | date: "dd/MM/yyyy"}}</td>
+					<td>{{locataire.pays.nom}}</td>
+					<td>{{locataire.lienDeParente !== null ? locataire.lienDeParente.nom:""}}</td>
+					<td><a (click)="definirUtilisateurASupprimer(locataire.id, content, locataire.nom, locataire.prenom)" role="button" class="btn btn-danger">Supprimer</a></td>
 				</tr>
-				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>08/06/2023</td>
-					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>08/06/2023</td>
-					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>08/06/2023</td>
-					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
-				</tr>
-				<tr>
-					<th scope="row">4</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>08/06/2023</td>
-					<td><a (click)="modalService.open(content)" role="button" class="btn btn-danger">Supprimer</a></td>
-				</tr>
-				
+				<tr *ngIf="locataires[0]==undefined"><td class="text-center" colspan="8">Aucun locataire disponible !</td></tr>
 			</tbody>
 		</table>
-		<ngb-pagination
-			[collectionSize]="120" [page]="1" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+		<ngb-pagination #paginator
+			(click)="pagination(paginator)"
+			[collectionSize]="parametrePage.totalElements"
+			[(page)]="parametrePage.pageCourante"
+			[pageSize]="parametrePage.taille"
+			[maxSize]="5"
+			[rotate]="true"
+			[ellipses]="false"
+			[boundaryLinks]="true">
 		</ngb-pagination>
 	</div>
 </div>
