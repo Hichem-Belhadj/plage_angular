@@ -15,70 +15,33 @@
 			  </tr>
 			</thead>
 			<tbody class="align-middle">
-				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>230 €</td>
-					<td><span class="statut confirmee">Confirmée</span></td>
-					<td><a (click)="voirDetail(3)" role="button" class="btn btn-dark">Consulter</a></td>
+				<tr *ngFor="let reservation of reservations">
+					<th scope="row">{{reservation.id}}</th>
+					<td>{{reservation.locataire.nom}}</td>
+					<td>{{reservation.locataire.prenom}}</td>
+					<td>{{reservation.dateHeureDebut  | date: "dd/MM/yyyy"}}</td>
+					<td>{{reservation.dateHeureFin  | date: "dd/MM/yyyy"}}</td>
+					<td>{{reservation.montantARegler}} €</td>
+					<td><span [ngClass]="{
+						'statut': true,
+						'a-traiter': reservation.statut.nom == 'à traiter',
+						'confirmee': reservation.statut.nom == 'confirmée',
+						'refusee': reservation.statut.nom == 'refusée'
+					}" class="statut confirmee">{{reservation.statut.nom}}</span></td>
+					<td><a (click)="voirDetail(reservation.id)" role="button" class="btn btn-dark">Consulter</a></td>
 				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>230 €</td>
-					<td><span class="statut refusee">Refusée</span></td>
-					<td><a role="button" class="btn btn-dark">Consulter</a></td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>230 €</td>
-					<td><span class="statut a-traiter">A traiter</span></td>
-					<td><a role="button" class="btn btn-dark">Consulter</a></td>
-				</tr>
-				<tr>
-					<th scope="row">4</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>230 €</td>
-					<td><span class="statut confirmee">Confirmée</span></td>
-					<td><a role="button" class="btn btn-dark">Consulter</a></td>
-				</tr>
-				<tr>
-					<th scope="row">5</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>230 €</td>
-					<td><span class="statut confirmee">Confirmée</span></td>
-					<td><a role="button" class="btn btn-dark">Consulter</a></td>
-				</tr>
-				<tr>
-					<th scope="row">6</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>01/06/2023</td>
-					<td>08/06/2023</td>
-					<td>230 €</td>
-					<td><span class="statut a-traiter">A traiter</span></td>
-					<td><a role="button" class="btn btn-dark">Consulter</a></td>
-				</tr>
+				
 			</tbody>
 		</table>
-		<ngb-pagination
-			[collectionSize]="120" [page]="1" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+		<ngb-pagination #paginator
+			(click)="pagination(paginator)"
+			[collectionSize]="parametrePage.totalElements"
+			[(page)]="parametrePage.pageCourante"
+			[pageSize]="parametrePage.taille"
+			[maxSize]="5"
+			[rotate]="true"
+			[ellipses]="false"
+			[boundaryLinks]="true">
 		</ngb-pagination>
 	</div>
 </div>

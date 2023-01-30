@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Reservation } from '../models/reservation.model';
 import { ReservationService } from '../services/reservation/reservation.service';
 import { ToastService } from '../services/toast/toast.service';
 import { UtilisateurService } from '../services/utilisateur/utilisateur.service';
@@ -12,8 +13,7 @@ import { UtilisateurService } from '../services/utilisateur/utilisateur.service'
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent {
-
-	statutReservation: string = "";
+	reservation: Reservation = <Reservation>{};
 	idReservation: number = 0;
 	public toast = {
 		show: false,
@@ -38,8 +38,20 @@ export class DetailComponent {
 		if (this.idReservation == 0) {
 			this.router.navigateByUrl("/404");
 		}
-		// this.reservationService.recupererStatutService(this.idReservation)
-		this.statutReservation = "à traiter";
+		this.rafraichirPage();
+	}
+
+	rafraichirPage() {
+		this.reservationService.recupererReservationParId(this.idReservation).subscribe({
+			next: reponse => {
+				this.reservation = reponse;
+				console.log(reponse);
+			},
+			error: err=>{
+				console.log(err);
+				
+			}
+		});
 	}
 
 	majReservation(statut: string): boolean {
@@ -57,7 +69,7 @@ export class DetailComponent {
 		// 		this.toast = this.toastService.voirToast("An error has occurred!", false);
 		// 	}
 		// });
-		this.statutReservation = statut;
+		this.reservation.statut.nom = statut;
 		return true;
 	}
 
