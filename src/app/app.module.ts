@@ -47,7 +47,7 @@ import { FiltrerPaysPipe } from './pipe/filtrer-pays.pipe';
 	HttpClientModule
   ],
   providers: [
-	tokenInterceptorProvider,
+	tokenInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

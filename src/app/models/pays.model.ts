@@ -1,4 +1,4 @@
 export class Pays {
-	code: number = <number>{};
+	code: String = <String>{};
   	nom: String = <String>{};
 }

@@ -29,8 +29,8 @@
 					<td>{{locataire.prenom}}</td>
 					<td>{{locataire.email}}</td>
 					<td>{{locataire.dateHeureInscription | date: "dd/MM/yyyy"}}</td>
-					<td>{{locataire.pays.nom}}</td>
-					<td>{{locataire.lienDeParente !== null ? locataire.lienDeParente.nom:""}}</td>
+					<td>{{locataire.pays}}</td>
+					<td>{{locataire.lienDeParente}}</td>
 					<td><a (click)="definirUtilisateurASupprimer(locataire.id, content, locataire.nom, locataire.prenom)" role="button" class="btn btn-danger">Supprimer</a></td>
 				</tr>
 				<tr *ngIf="locataires[0]==undefined"><td class="text-center" colspan="8">Aucun locataire disponible !</td></tr>

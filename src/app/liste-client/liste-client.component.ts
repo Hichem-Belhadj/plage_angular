@@ -81,11 +81,7 @@ export class ListeClientComponent {
 	}
 
 	definirListeLocataire(reponse: any) {
-		this.locataires = [];
-		for (let locataire of reponse.locataires) {
-			locataire[0]["pays"] = locataire[1];
-			this.locataires.push(locataire[0]);
-		}		
+		this.locataires = reponse.locataires;	
 		this.parametrePage.pageCourante = reponse.pageCourante+1;
 		this.parametrePage.totalElements = reponse.totalElements;
 		this.parametrePage.totalPages = reponse.totalPages;

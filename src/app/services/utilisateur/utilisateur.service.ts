@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import * as moment from "moment";
 import { Subject } from 'rxjs';
+import { Utilisateur } from 'src/app/models/utilisateur.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +11,14 @@ import { Subject } from 'rxjs';
 export class UtilisateurService {
 
 	private baseUrl: string = "http://localhost:8080/api/v1";
-	constructor(private http: HttpClient) { }
 	public emetteurDonees = new Subject();
 	public utilisateurCourant: any;
+	public estConcessionnaire: boolean = false;
+	
+	constructor(
+		private http: HttpClient,
+		private router: Router
+	) { }
 
 	emissionDeDonees(donees: any) {
 		this.emetteurDonees.next(donees);
@@ -21,9 +28,26 @@ export class UtilisateurService {
 		return this.http.delete(`${this.baseUrl}/utilisateur/supprimer/${id}`);
 	}
 
-	connexion(email: string, motDePasse: string) {
-		let param = `?email=${email}&motDePasse=${motDePasse}`;
-		return this.http.post<any>(`${this.baseUrl}/login${param}`, null);
+	connexion(utilisateur: any) {
+		//let param = `?email=${email}&motDePasse=${motDePasse}`;
+		return this.http.post<any>(`${this.baseUrl}/login`, utilisateur);
+	}
+
+	oncessionnaire() {
+		this.recupererUtilisateurCourantREST()?.subscribe({
+			next: reponse => {
+				this.utilisateurCourant = reponse;
+				for (let role of this.utilisateurCourant.roles) {
+					if (role.name == 'ROLE_ADMIN') {
+						this.estConcessionnaire = true;
+						break;
+					}
+				}
+			},
+			error: err=> {
+				console.log(err);
+			}
+		});
 	}
 
 	recupererUtilisateurCourantREST() {
@@ -69,8 +93,16 @@ export class UtilisateurService {
 		}
 	}
 
-	ajouterUtilisateur() {
-		
+	recupererLienDeParente() {
+		return this.http.get<any>(`${this.baseUrl}/utilisateur/lienDeParente`);
+	}
+
+	recupererListePays() {
+		return this.http.get<any>(`${this.baseUrl}/utilisateur/listePays`);
+	}
+
+	enregistrerLocataire(locataire: Utilisateur) {
+		return this.http.post<any>(`${this.baseUrl}/utilisateur/ajout`, locataire);
 	}
 
 	recupererBaseUrl() {
