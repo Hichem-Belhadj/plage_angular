@@ -10,8 +10,8 @@
 			<div class="row g-2 my-3">
 				<div class="col-md">
 				  	<div class="form-floating">
-						<input type="text" class="form-control" formControlName="nom" id="floatingInputGrid">
-						<label for="floatingInputGrid">Nom</label>
+						<input type="text" class="form-control" formControlName="nom" id="nom">
+						<label for="nom">Nom</label>
 				  	</div>
 				  	<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('nom'))" class="form-text text-danger">
 						<span>Veuillez saisir votre nom.</span>
@@ -19,8 +19,8 @@
 				</div>
 				<div class="col-md">
 					<div class="form-floating">
-					  <input type="text" class="form-control" formControlName="prenom" id="floatingInputGrid">
-					  <label for="floatingInputGrid">Prénom</label>
+					  <input type="text" class="form-control" formControlName="prenom" id="prenom">
+					  <label for="prenom">Prénom</label>
 					</div>
 					<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('prenom'))" class="form-text text-danger">
 					  <span>Veuillez saisir votre prénom.</span>
@@ -30,8 +30,8 @@
 			<div class="row g-2 my-3">
 				<div class="col-md">
 				  	<div class="form-floating">
-						<input type="text" class="form-control" formControlName="email" id="floatingInputGrid">
-						<label for="floatingInputGrid">Adresse email</label>
+						<input type="text" class="form-control" formControlName="email" id="email">
+						<label for="email">Adresse email</label>
 				  	</div>
 				  	<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('email'))" class="form-text text-danger">
 						<span *ngIf="formulaireInscription.get('email')?.errors?.['required']">Veuillez saisir un email.</span>
@@ -40,8 +40,11 @@
 				</div>
 				<div class="col-md">
 					<div class="form-floating">
-					  <input type="email" class="form-control" formControlName="pays" id="floatingInputGrid">
-					  <label for="floatingInputGrid">Pays de résidence</label>
+						<select class="form-select" id="pays" formControlName="pays" aria-label="Floating label select example">
+							<option></option>
+							<option *ngFor="let pays of listePays" [ngValue]="pays.code">{{pays.nom}}</option>
+						</select>
+						<label for="pays">Pays de résidence</label>
 					</div>
 					<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('pays'))" class="form-text text-danger">
 					  <span>Veuillez saisir votre pays.</span>
@@ -51,13 +54,11 @@
 			<div class="row g-2 my-3">
 				<div class="col-md">
 					<div class="form-floating">
-						<select class="form-select" id="floatingSelectGrid" formControlName="lienDeParente" aria-label="Floating label select example">
+						<select class="form-select" id="lienDeParente" formControlName="lienDeParente" aria-label="Floating label select example">
 							<option></option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+							<option *ngFor="let lien of lienDeParente" [ngValue]="lien.id">{{lien.nom}}</option>
 						</select>
-						<label for="floatingSelectGrid">Lien de parenté</label>
+						<label for="lienDeParente">Lien de parenté</label>
 					</div>
 					<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('lienDeParente'))" class="form-text text-danger">
 					  <span>Veuillez choisir un lien de parenté.</span>
@@ -65,8 +66,8 @@
 				</div>
 				<div class="col-md">
 				  	<div class="form-floating">
-						<input type="password" class="form-control" formControlName="motDePasse" id="floatingInputGrid">
-						<label for="floatingInputGrid">Mot de passe</label>
+						<input type="password" class="form-control" formControlName="motDePasse" id="motDePasse">
+						<label for="motDePasse">Mot de passe</label>
 				  	</div>
 				  	<div *ngIf="utilService.entreeInvalide(formulaireInscription.get('motDePasse'))" class="form-text text-danger">
 						<span *ngIf="formulaireInscription.get('motDePasse')?.errors?.['required']">Veuillez saisir un mot de passe.</span>
@@ -79,3 +80,5 @@
 		  </form>
 	</div>
 </div>
+
+<app-toast [toast]="toast"></app-toast>

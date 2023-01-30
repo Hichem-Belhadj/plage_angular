@@ -47,7 +47,7 @@ export class ConnexionComponent {
 		this.utilisateur.email = this.formulaireConnexion.value.email;
 		this.utilisateur.motDePasse = this.formulaireConnexion.value.motDePasse;
 
-		this.utilisateurService.connexion(this.utilisateur.email, this.utilisateur.motDePasse).subscribe({
+		this.utilisateurService.connexion(this.utilisateur).subscribe({
 			next: reponse => {
 				if(reponse) {
 					localStorage.setItem('access_token', reponse.access_token);

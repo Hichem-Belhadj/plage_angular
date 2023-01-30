@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Utilisateur } from '../models/utilisateur.model';
 import { UtilisateurService } from '../services/utilisateur/utilisateur.service';
 
@@ -12,6 +12,7 @@ export class NavigationComponent {
 	estConnecte: boolean = this.utilisateurService.estConnecte();
 	utilisateurCourant: Utilisateur = <Utilisateur>{};
 	estConcessionnaire: boolean = false;
+	myObserver: any = null;
 
 	constructor(
 		private utilisateurService: UtilisateurService,
@@ -25,7 +26,15 @@ export class NavigationComponent {
 				this.mettreAJourUtilisateur();
 			}
 	   });
-	   this.mettreAJourUtilisateur();
+		
+		this.myObserver = this.router.events.subscribe((val) => {
+			this.estConnecte = this.utilisateurService.estConnecte();
+			this.mettreAJourUtilisateur();
+		});
+	}
+
+	ngOnDestroy() {
+		this.myObserver.unsubscribe();
 	}
 
 	mettreAJourUtilisateur() {
@@ -33,6 +42,7 @@ export class NavigationComponent {
 			this.utilisateurService.recupererUtilisateurCourantREST()?.subscribe({
 				next: reponse => {
 					this.utilisateurCourant = reponse;
+					this.estConcessionnaire = false;
 					for (let role of this.utilisateurCourant.roles) {
 						if (role.name == 'ROLE_ADMIN') {
 							this.estConcessionnaire = true;

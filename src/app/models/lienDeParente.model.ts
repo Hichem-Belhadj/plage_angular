@@ -1,5 +1,5 @@
 export class LienDeParente {
-	id: number = <number>{};
+	id?: number = <number>{};
 	nom: String = <String>{};
 	coefficient: String = <String>{};
 }
