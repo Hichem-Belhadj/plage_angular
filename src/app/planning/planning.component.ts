@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbAlertModule, NgbDatepickerModule, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDateParserFormatter, CustomDatepickerI18n } from '../services/BSLocal/bslocal.service';
 import { ReservationService } from '../services/reservation/reservation.service';
 
@@ -15,10 +15,8 @@ import { ReservationService } from '../services/reservation/reservation.service'
 })
 export class PlanningComponent {
 	model: NgbDateStruct | undefined;
-	dateDuJour: string = this.recupererDateDuJour();
-	listeParasolsFile: any = [
-		null, null, null
-	];
+	date: any;
+	listeParasolsFile: any = [];
 	listeParasolsFile1: any = [];
 	listeParasolsFile2: any = [];
 	listeParasolsFile3: any = [];
@@ -26,51 +24,67 @@ export class PlanningComponent {
 	listeParasolsFile5: any = [];
 	listeParasolsFile6: any = [];
 	listeParasolsFile7: any = [];
+	listeParasolsFile8: any = [];
+	listeParasols: any = [];
 
 	constructor(
 		private router: Router,
-		private reservationService: ReservationService
+		private reservationService: ReservationService,
+		private calendar: NgbCalendar
 	) {}
+	
+	definitListeParasolsparFile(noFile: any, idDepart: number, tableauDeFile: any[]) {
+		let emptyCase = false
+		tableauDeFile = [];
+		for (let i=idDepart; i<idDepart+10; i++) {
+			let file = this.listeParasolsFile[i][1];
+			if(i==idDepart+5 && !emptyCase) {
+				tableauDeFile.push({});
+				emptyCase = true;
+				i--
+				continue
+			}
+			if (file == noFile) {
+				tableauDeFile.push(this.listeParasolsFile[i]);
+			}
+		}
+		this.listeParasols.push(tableauDeFile);
+	}
 
-	recupererDateDuJour() {
-		let auj = new Date(),
-			dd: any = auj.getDate(),
-			mm: any = auj.getMonth() + 1,
-			yyyy: any = auj.getFullYear();
+	transformerDate(date: any) {
+		let dd: any = date.day,
+			mm: any = date.month,
+			yyyy: any = date.year;
 		if (dd < 10) {
 			dd = '0' + dd;
 		}
 		if (mm < 10) {
 			mm = '0' + mm;
 		}
-		return yyyy + '-' + mm + '-' + dd;
-	}
-	
-	defunutListeParasolsparFile(file:any) {
-
-		for (let i=0; i<8;i++) {
-			for (let location of this.listeParasolsFile ) {
-				if(!location.parasols.length) continue;
-				for (let parasol of location.parasols) {
-					if( parasol.numEmplacement !=  i+1) continue;
-					this.listeParasolsFile1[i] = parasol;
-					this.listeParasolsFile1[i]["res"] = location.id;
-					break;
-				}
-			}
-		}
-
-		console.log(this.listeParasolsFile1);
-		
+		// 2023-06-20 14:24:34.395
+		return yyyy + '-' + mm + '-' + dd + ' 00:00';
 	}
 
-	ngOnInit() {		
-		this.reservationService.recupererListeParasols("2023-08-15").subscribe({
+	ngOnInit() {
+		this.model = this.calendar.getToday();
+		this.date = this.transformerDate(this.calendar.getToday());
+		console.log(this.date)
+		this.rafraichirPlanning();
+	}
+
+	rafraichirPlanning() {
+		this.reservationService.recupererListeParasols(this.date).subscribe({
 			next: reponse => {
-				// this.formatageListeParasol(reponse);
-				console.log(reponse);
+				this.listeParasols = [];
 				this.listeParasolsFile = reponse;
-				this.defunutListeParasolsparFile(1)
+				this.definitListeParasolsparFile(1, 0, this.listeParasolsFile1);
+				this.definitListeParasolsparFile(2, 9, this.listeParasolsFile2);
+				this.definitListeParasolsparFile(3, 18, this.listeParasolsFile3);
+				this.definitListeParasolsparFile(4, 27, this.listeParasolsFile4);
+				this.definitListeParasolsparFile(5, 36, this.listeParasolsFile5);
+				this.definitListeParasolsparFile(6, 45, this.listeParasolsFile6);
+				this.definitListeParasolsparFile(7, 54, this.listeParasolsFile7);
+				
 			},
 			error: err => {
 				console.log(err);
@@ -78,7 +92,13 @@ export class PlanningComponent {
 		})
 	}
 
+	onDateSelect(d: any) {
+		this.date = this.transformerDate(d);
+		this.rafraichirPlanning();
+	}
+
 	voirDetail(idReservation: number) {
+		if(idReservation==null) return;
 		this.router.navigateByUrl(`/detail?idReservation=${idReservation}`)
 	}
 }

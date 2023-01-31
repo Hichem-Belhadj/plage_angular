@@ -30,6 +30,7 @@
 					}" class="statut confirmee">{{reservation.statut.nom}}</span></td>
 					<td><a (click)="voirDetail(reservation.id)" role="button" class="btn btn-dark">Consulter</a></td>
 				</tr>
+				<tr *ngIf="reservations[0]==undefined"><td class="text-center" colspan="8">Aucune réservation disponible !</td></tr>
 				
 			</tbody>
 		</table>

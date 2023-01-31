@@ -1,3 +1,4 @@
+import { Statut } from "./statut.model";
 import { Utilisateur } from "./utilisateur.model";
 
 export class Reservation {
@@ -7,5 +8,5 @@ export class Reservation {
   	dateHeureDebut: string|null = <string>{};
   	dateHeureFin: string|null = <string>{};
 	locataire: Utilisateur = <Utilisateur>{};
-	statut: any;
+	statut: Statut = <Statut>{};
 }

@@ -9,12 +9,12 @@ export class ReservationService {
 	private baseUrl: string = "http://localhost:8080/api/v1";
 	constructor(private http: HttpClient) { }
 
-	majStatutReservation(statut: string){
-		return this.http.delete(`${this.baseUrl}`);
+	majStatutReservation(idReservation: number, idStatut: number){
+		return this.http.patch<any>(`${this.baseUrl}/reservations/statut/${idReservation}/${idStatut}`, {});
 	}
 
 	recupererListeParasols(date: string){
-		return this.http.get<any>(`${this.baseUrl}/recupererParasolParDate?date=${date}`);
+		return this.http.get<any>(`${this.baseUrl}/reservations/parasol/statut?date=${date}`);
 	}
 
 	recupererStatutReservation(id: number) {
@@ -30,7 +30,7 @@ export class ReservationService {
 		return this.http.get<any>(`${this.baseUrl}/reservations/page${param}`);
 	}
 
-	ajoutReservation() {
-		
+	ajoutReservation(donnees: any) {
+		return this.http.post<any>(`${this.baseUrl}/location`, donnees);
 	}
 }

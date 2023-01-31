@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Reservation } from '../models/reservation.model';
 import { ReservationService } from '../services/reservation/reservation.service';
 import { ToastService } from '../services/toast/toast.service';
-import { UtilisateurService } from '../services/utilisateur/utilisateur.service';
 
 @Component({
   selector: 'app-detail',
@@ -13,7 +11,7 @@ import { UtilisateurService } from '../services/utilisateur/utilisateur.service'
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent {
-	reservation: Reservation = <Reservation>{};
+	reservation: any = <any>{};
 	idReservation: number = 0;
 	public toast = {
 		show: false,
@@ -49,27 +47,25 @@ export class DetailComponent {
 			},
 			error: err=>{
 				console.log(err);
-				
 			}
 		});
 	}
 
-	majReservation(statut: string): boolean {
-		// this.reservationService.majStatutReservation(statut).subscribe({
-		// 	next: response => {
-		// 		if(response) {
-		// 			this.updatePage(this.pageData.page, this.pageData.size, this.pageData.sortBy, this.pageData.orderBy);
-		// 			this.toast = this.toastService.voirToast(this.userToDelete.firstName + " has been removed from the database!", true);
-		// 		} else {
-		// 			this.toast = this.toastService.voirToast("An error has occurred!", false);
-		// 		}
-		// 	},
-		// 	error: err => {
-		// 		console.log(err);
-		// 		this.toast = this.toastService.voirToast("An error has occurred!", false);
-		// 	}
-		// });
-		this.reservation.statut.nom = statut;
+	majReservation(idStatut: number): boolean {
+		this.reservationService.majStatutReservation(this.idReservation, idStatut).subscribe({
+			next: response => {
+				if(response) {
+					this.reservation = response;
+					// this.toast = this.toastService.voirToast(this.userToDelete.firstName + " has been removed from the database!", true);
+				} else {
+					this.toast = this.toastService.voirToast("An error has occurred!", false);
+				}
+			},
+			error: err => {
+				console.log(err);
+				this.toast = this.toastService.voirToast("An error has occurred!", false);
+			}
+		});
 		return true;
 	}
 
@@ -79,14 +75,14 @@ export class DetailComponent {
 			this.toast = this.toastService.voirToast("Veuillez affecter tous les parasols", false);
 			return;
 		}
-		if ( this.majReservation("confirmée") ) {
+		if ( this.majReservation(2) ) {
 			this.toast = this.toastService.voirToast("Cette réservation à bien été validée", true);
 		}
 	}
 
 	refuserReservation() {
 		this.modalService.dismissAll();
-		if ( this.majReservation("refusée") ) {
+		if ( this.majReservation(3) ) {
 			this.toast = this.toastService.voirToast("Cette réservation à bien été refusée", true);
 		}
 	}
