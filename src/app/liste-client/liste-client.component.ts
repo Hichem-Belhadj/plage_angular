@@ -94,7 +94,14 @@ export class ListeClientComponent {
 				this.parametrePage.taille = taille;
 				this.parametrePage.filtrerPar = filtrerPar;
 				this.parametrePage.trierPar = trierPar;
+
+				console.log(reponse);
+				
 				this.definirListeLocataire(reponse);
+			},
+			error: err=>{
+				console.log(err);
+				
 			}
 		});
 	}

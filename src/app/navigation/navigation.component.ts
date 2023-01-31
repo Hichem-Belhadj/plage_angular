@@ -30,11 +30,12 @@ export class NavigationComponent {
 		this.myObserver = this.router.events.subscribe((val) => {
 			this.estConnecte = this.utilisateurService.estConnecte();
 			this.mettreAJourUtilisateur();
+			this.myObserver.unsubscribe()
 		});
 	}
 
 	ngOnDestroy() {
-		this.myObserver.unsubscribe();
+		//this.myObserver.unsubscribe();
 	}
 
 	mettreAJourUtilisateur() {

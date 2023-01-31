@@ -7,7 +7,7 @@
 		<div class="row mb-5">
 			<div class="col-10">
 				<div class="form-floating">
-					<input class="form-control" name="dp" ngbDatepicker [(ngModel)]="model" #d="ngbDatepicker">
+					<input class="form-control" name="dp" (dateSelect)="onDateSelect($event)" ngbDatepicker [(ngModel)]="model" #d="ngbDatepicker">
 					<label for="floatingInput">dd/mm/aaaa</label>
 				</div>
 			</div>
@@ -17,102 +17,19 @@
 		</div>
 	  <table class="m-auto">
 		<tbody>
-			<tr>
-				<td><span (click)="voirDetail(3)" ngbTooltip="9F1" tooltipClass="my-custom-class" class="planning-item booked"></span></td>
-				<td><span ngbTooltip="8F1" tooltipClass="my-custom-class" class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
+			
+			<tr *ngFor="let parasol of listeParasols">
+				<td *ngFor="let item of parasol">
+					<span (click)="voirDetail(item[2])" ngbTooltip="{{item[0]}}{{item[0]!=null?'F':''}}{{item[1]}}" tooltipClass="my-custom-class"
+					[ngClass]="{
+						'planning-item': true,
+						'booked': item[3]!=null,
+						'empty': item[1]==null
+					}" class="planning-item booked">
+					</span>
+				</td>
 			</tr>
-			<tr>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-			</tr>
-			<tr>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-			</tr>
-			<tr>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-			</tr>
-			<tr>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-			</tr>
-			<tr>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item booked"></span></td>
-			</tr>
-			<tr>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-			</tr>
-			<tr>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item empty"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item"></span></td>
-				<td><span class="planning-item booked"></span></td>
-				<td><span class="planning-item"></span></td>
-			</tr>
+			
 		</tbody>
 	  </table>
 	</div>

@@ -56,36 +56,49 @@ export class ReservationComponent {
 		return true
 	}
 
+	transformerDate(date: any) {
+		let dd: any = date.day,
+			mm: any = date.month,
+			yyyy: any = date.year;
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		// 2023-06-20 14:24:34.395
+		return yyyy + '-' + mm + '-' + dd + 'T00:00';
+	}
+
 	reserver(){
-		console.log(this.formulaireReservation.value.modelDateDebut,this.formulaireReservation.value.modelDateFin);
+		const donnees = {
+			listeFiles: this.formulaireReservation.value.parasols,
+			dateHeureDebut: this.transformerDate(this.formulaireReservation.value.modelDateDebut),
+			dateHeureFin: this.transformerDate(this.formulaireReservation.value.modelDateFin),
+			remarques: this.formulaireReservation.value.remarques
+		}
+		donnees.listeFiles.unshift(this.formulaireReservation.value.parasol2);
+		donnees.listeFiles.unshift(this.formulaireReservation.value.parasol1);
+		console.log(donnees);
 		if(!this.dateControle()) {
 			this.toast = this.toastService.voirToast("Choisissez une date entre le 01 juin au 15 Septembre!", false);
 			return
 		}
-		this.toast = this.toastService.voirToast("Votre réservation est en cours de traitement !", true);
-		// this.formulaireReservation.reset();
-		
-		// this.user.firstName = this.userForm.value.firstName;
-		// this.user.lastName = this.userForm.value.lastName;
-		// this.user.userType = this.userForm.value.userType;
-		// this.user.startDate = this.parseDate(this.userForm.value.startDate);
-		
-		// this.save();
-
-		// this.reservationService.ajoutReservation(reservation).subscribe({
-		// 	next: response => {
-		// 		if(response) {
-		// 			this.updatePage(this.pageData.page, this.pageData.size, this.pageData.sortBy, this.pageData.orderBy);
-		// 			this.toast = this.toastService.voirToast(this.userToDelete.firstName + " has been removed from the database!", true);
-		// 		} else {
-		// 			this.toast = this.toastService.voirToast("An error has occurred!", false);
-		// 		}
-		// 	},
-		// 	error: err => {
-		// 		console.log(err);
-		// 		this.toast = this.toastService.voirToast("An error has occurred!", false);
-		// 	}
-		// });
+		this.reservationService.ajoutReservation(donnees).subscribe({
+			next: response => {
+				if(response) {
+					console.log(response);
+					this.toast = this.toastService.voirToast("Votre réservation est en cours de traitement !", true);
+					this.formulaireReservation.reset();
+				} else {
+					this.toast = this.toastService.voirToast("Une erreur est survenue !!", false);
+				}
+			},
+			error: err => {
+				console.log(err);
+				this.toast = this.toastService.voirToast("Une erreur est survenue !", false);
+			}
+		});
 	}
 
 	get parasolForms() {

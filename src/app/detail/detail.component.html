@@ -1,25 +1,25 @@
 <h1>Détail de la réservation <span [ngClass]="{
 	'statut': true,
-	'a-traiter': statutReservation == 'à traiter',
-	'confirmee': statutReservation == 'confirmée',
-	'refusee': statutReservation == 'refusée'
-}">{{statutReservation}}</span></h1>
+	'a-traiter': reservation.statut?.nom == 'à traiter',
+	'confirmee': reservation.statut?.nom == 'confirmée',
+	'refusee': reservation.statut?.nom == 'refusée'
+}">{{reservation.statut?.nom}}</span></h1>
 <a routerLink="/liste-reservation" class="btn btn-outline-plage">&#8592; retour à la liste des réservations</a>
 <div class="card border-0 shadow-lg my-5">
 	<div class="card-body p-5 position-relative pb-5">
-		<h5 class="card-title">Réservation n° 1</h5>
+		<h5 class="card-title">Réservation n° {{reservation.id}}</h5>
     	<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
     	<ul class="list-group mb-3">
-			<li class="list-group-item"><span class="detail-list">nom :</span> BELHADJ</li>
-			<li class="list-group-item"><span class="detail-list">Prénom :</span> Hichem</li>
-			<li class="list-group-item"><span class="detail-list">Date de début :</span> 01/06/2023</li>
-			<li class="list-group-item"><span class="detail-list">Date de fin :</span> 09/06/2023</li>
-			<li class="list-group-item"><span class="detail-list">Remarques :</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias vitae.</li>
-			<li *ngIf="statutReservation == 'confirmée'" class="list-group-item"><span class="detail-list">Liste des parasols :</span> 9F1 - 8F1</li>
-			<li class="list-group-item"><span class="detail-list">Montant :</span> 250 €</li>
+			<li class="list-group-item"><span class="detail-list">nom :</span> {{reservation.locataire?.nom}}</li>
+			<li class="list-group-item"><span class="detail-list">Prénom :</span> {{reservation.locataire?.prenom}}</li>
+			<li class="list-group-item"><span class="detail-list">Date de début :</span> {{reservation.dateHeureDebut | date: 'dd/MM/yyyy'}}</li>
+			<li class="list-group-item"><span class="detail-list">Date de fin :</span> {{reservation.dateHeureFin | date: 'dd/MM/yyyy'}}</li>
+			<li class="list-group-item"><span class="detail-list">Remarques :</span> {{reservation.remarque}}</li>
+			<li *ngIf="reservation.statut?.nom == 'confirmée'" class="list-group-item"><span class="detail-list">Liste des parasols :</span> 9F1 - 8F1</li>
+			<li *ngIf="reservation.statut?.nom == 'confirmée'" class="list-group-item"><span class="detail-list">Montant :</span> 250 €</li>
 		</ul>
 
-		<form #f="ngForm" *ngIf="statutReservation == 'à traiter'">
+		<form #f="ngForm" *ngIf="reservation.statut?.nom == 'à traiter'">
 			<div class="affectation mb-3">
 				<p class="card-text">Liste des parasols à affecter :</p>
 				<ul class="list-group">
