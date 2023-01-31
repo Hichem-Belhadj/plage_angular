@@ -36,12 +36,12 @@ export class PlanningComponent {
 	definitListeParasolsparFile(noFile: any, idDepart: number, tableauDeFile: any[]) {
 		let emptyCase = false
 		tableauDeFile = [];
-		for (let i=idDepart; i<idDepart+10; i++) {
+		for (let i=idDepart; i>idDepart-10; i--) {
 			let file = this.listeParasolsFile[i][1];
-			if(i==idDepart+5 && !emptyCase) {
+			if(i==idDepart-6 && !emptyCase) {
 				tableauDeFile.push({});
 				emptyCase = true;
-				i--
+				i++
 				continue
 			}
 			if (file == noFile) {
@@ -76,14 +76,14 @@ export class PlanningComponent {
 		this.reservationService.recupererListeParasols(this.date).subscribe({
 			next: reponse => {
 				this.listeParasols = [];
-				this.listeParasolsFile = reponse;
-				this.definitListeParasolsparFile(1, 0, this.listeParasolsFile1);
-				this.definitListeParasolsparFile(2, 9, this.listeParasolsFile2);
-				this.definitListeParasolsparFile(3, 18, this.listeParasolsFile3);
-				this.definitListeParasolsparFile(4, 27, this.listeParasolsFile4);
-				this.definitListeParasolsparFile(5, 36, this.listeParasolsFile5);
-				this.definitListeParasolsparFile(6, 45, this.listeParasolsFile6);
-				this.definitListeParasolsparFile(7, 54, this.listeParasolsFile7);
+				this.listeParasolsFile = reponse;				
+				this.definitListeParasolsparFile(1, 9, this.listeParasolsFile1);
+				this.definitListeParasolsparFile(2, 18, this.listeParasolsFile2);
+				this.definitListeParasolsparFile(3, 27, this.listeParasolsFile3);
+				this.definitListeParasolsparFile(4, 36, this.listeParasolsFile4);
+				this.definitListeParasolsparFile(5, 45, this.listeParasolsFile5);
+				this.definitListeParasolsparFile(6, 54, this.listeParasolsFile6);
+				this.definitListeParasolsparFile(7, 63, this.listeParasolsFile7);
 				
 			},
 			error: err => {

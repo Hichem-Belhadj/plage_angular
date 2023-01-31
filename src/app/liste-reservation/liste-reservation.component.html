@@ -5,8 +5,8 @@
 			<thead>
 			  <tr>
 				<th scope="col">#</th>
-				<th scope="col">Nom</th>
-				<th scope="col">Prénom</th>
+				<th *ngIf="estConcessionnaire" scope="col">Nom</th>
+				<th *ngIf="estConcessionnaire" scope="col">Prénom</th>
 				<th scope="col">Date début</th>
 				<th scope="col">Date fin</th>
 				<th scope="col">Montant</th>
@@ -17,11 +17,11 @@
 			<tbody class="align-middle">
 				<tr *ngFor="let reservation of reservations">
 					<th scope="row">{{reservation.id}}</th>
-					<td>{{reservation.locataire.nom}}</td>
-					<td>{{reservation.locataire.prenom}}</td>
+					<td *ngIf="estConcessionnaire" >{{reservation.locataire.nom}}</td>
+					<td *ngIf="estConcessionnaire" >{{reservation.locataire.prenom}}</td>
 					<td>{{reservation.dateHeureDebut  | date: "dd/MM/yyyy"}}</td>
 					<td>{{reservation.dateHeureFin  | date: "dd/MM/yyyy"}}</td>
-					<td>{{reservation.montantARegler}} €</td>
+					<td>{{reservation.statut.nom == 'à traiter' ? '--':reservation.montantARegler}} €</td>
 					<td><span [ngClass]="{
 						'statut': true,
 						'a-traiter': reservation.statut.nom == 'à traiter',

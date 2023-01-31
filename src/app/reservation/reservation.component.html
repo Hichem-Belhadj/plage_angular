@@ -36,16 +36,14 @@
 				<span>Veuillez saisir une date de fin.</span>
 			</div>
 			<hr>
-			<h6>Choisisez vtre parasol</h6>
+			<h6>Choisisez votre parasol</h6>
 			<div style="max-height: 350px;" class="parasols overflow-auto ps-3 pe-5">
 				<div class="p1">
 					<div id="emailHelp" class="form-text">Parasol 1</div>
 					<div class="form-floating">
 						<select formControlName="parasol1" class="form-select">
 						<option></option>
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
+						<option *ngFor="let item of nobreDeFils; let i=index" [ngValue]="i+1" value="1">File n° {{i+1}}</option>
 						</select>
 						<label >Numéro de file</label>
 					</div>
@@ -58,9 +56,7 @@
 					<div class="form-floating">
 						<select formControlName="parasol2" class="form-select">
 						<option></option>
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
+						<option *ngFor="let item of nobreDeFils; let i=index" [ngValue]="i+1" value="1">File n° {{i+1}}</option>
 						</select>
 						<label>Numéro de file</label>
 					</div>
@@ -72,9 +68,7 @@
 							<div class="form-floating">
 								<select class="form-select" [formControl]="$any(parasol)">
 								<option></option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+								<option *ngFor="let item of nobreDeFils; let i=index" [ngValue]="i+1" value="1">File n° {{i+1}}</option>
 								</select>
 								<label>Numéro de file</label>
 							</div>

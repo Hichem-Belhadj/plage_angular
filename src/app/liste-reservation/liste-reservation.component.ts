@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Reservation } from '../models/reservation.model';
 import { ReservationService } from '../services/reservation/reservation.service';
 import { ToastService } from '../services/toast/toast.service';
+import { UtilisateurService } from '../services/utilisateur/utilisateur.service';
 
 @Component({
   selector: 'app-liste-reservation',
@@ -11,6 +12,7 @@ import { ToastService } from '../services/toast/toast.service';
 })
 export class ListeReservationComponent {
 	reservations: Reservation[] = [];
+	estConcessionnaire: boolean = false;
 	parametrePage = {
 		page: 0,
 		taille: 5,
@@ -23,6 +25,7 @@ export class ListeReservationComponent {
 	
 	constructor(
 		private router: Router,
+		private utilisateurService: UtilisateurService,
 		private route: ActivatedRoute,
 		private reservationService: ReservationService
 	) {}
@@ -42,9 +45,9 @@ export class ListeReservationComponent {
 			).subscribe({
 			next: reponse => {
 				this.definirListeReservations(reponse);
-				console.log(reponse);
 			}
 		});
+		this.mettreAJourUtilisateur();
 	}
 
 	pagination(pagination: any) {
@@ -68,6 +71,23 @@ export class ListeReservationComponent {
 			error: err=>{
 				console.log(err);
 				
+			}
+		});
+	}
+
+	mettreAJourUtilisateur() {
+		this.utilisateurService.recupererUtilisateurCourantREST()?.subscribe({
+			next: reponse => {
+				this.estConcessionnaire = false;
+				for (let role of reponse.roles) {
+					if (role.name == 'ROLE_ADMIN') {
+						this.estConcessionnaire = true;
+						break;
+					}
+				}
+			},
+			error: err=> {
+				console.log(err);
 			}
 		});
 	}
