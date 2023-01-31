@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { NgbDate, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DemandeReservation } from '../models/demandeReservation.model';
+import { Reservation } from '../models/reservation.model';
 import { CustomDateParserFormatter, CustomDatepickerI18n } from '../services/BSLocal/bslocal.service';
 import { ReservationService } from '../services/reservation/reservation.service';
 import { ToastService } from '../services/toast/toast.service';
@@ -19,6 +21,9 @@ export class ReservationComponent {
 	formulaireReservation: FormGroup = <FormGroup>{};
 	modelDateDebut: NgbDateStruct | undefined;
 	modelDateFin: NgbDateStruct | undefined;
+	reservation: Reservation = <Reservation>{};
+	demandeReservations: DemandeReservation[] = [];
+	nobreDeFils: any[] = Array(8);
 	public toast = {
 		show: false,
 		class: "",
@@ -71,20 +76,30 @@ export class ReservationComponent {
 	}
 
 	reserver(){
-		const donnees = {
-			listeFiles: this.formulaireReservation.value.parasols,
-			dateHeureDebut: this.transformerDate(this.formulaireReservation.value.modelDateDebut),
-			dateHeureFin: this.transformerDate(this.formulaireReservation.value.modelDateFin),
-			remarques: this.formulaireReservation.value.remarques
+		let listeFiles = this.formulaireReservation.value.parasols;
+		listeFiles.unshift(this.formulaireReservation.value.parasol2);
+		listeFiles.unshift(this.formulaireReservation.value.parasol1);
+		console.log(listeFiles);
+		this.demandeReservations = [];
+
+		for (let i=0; i< listeFiles.length; i++) {
+			if (listeFiles[i]==null || listeFiles[i]=='') continue;
+			let demandeReservation: DemandeReservation = <DemandeReservation>{};
+			demandeReservation.numeroFile = listeFiles[i];
+			this.demandeReservations.push(demandeReservation);
 		}
-		donnees.listeFiles.unshift(this.formulaireReservation.value.parasol2);
-		donnees.listeFiles.unshift(this.formulaireReservation.value.parasol1);
-		console.log(donnees);
+		console.log(this.demandeReservations);
+		
+		this.reservation.dateHeureDebut = this.transformerDate(this.formulaireReservation.value.modelDateDebut);
+		this.reservation.dateHeureFin = this.transformerDate(this.formulaireReservation.value.modelDateFin);
+		this.reservation.remarque = this.formulaireReservation.value.remarques;
+		this.reservation.demandeReservations = this.demandeReservations;
+		console.log(this.reservation);
 		if(!this.dateControle()) {
 			this.toast = this.toastService.voirToast("Choisissez une date entre le 01 juin au 15 Septembre!", false);
 			return
 		}
-		this.reservationService.ajoutReservation(donnees).subscribe({
+		this.reservationService.ajoutReservation(this.reservation).subscribe({
 			next: response => {
 				if(response) {
 					console.log(response);
@@ -108,6 +123,5 @@ export class ReservationComponent {
 	addUmbrella() {
 		let newCtrl = new FormControl(null);
 		this.parasolForms.push(newCtrl);
-		console.log(this.parasolForms.controls);
 	}
 }

@@ -8,7 +8,7 @@
 			<div class="col-10">
 				<div class="form-floating">
 					<input class="form-control" name="dp" (dateSelect)="onDateSelect($event)" ngbDatepicker [(ngModel)]="model" #d="ngbDatepicker">
-					<label for="floatingInput">dd/mm/aaaa</label>
+					<label for="floatingInput">jj/mm/aaaa</label>
 				</div>
 			</div>
 			<button id="button-addon" class="bi bi-calendar3 col-2" (click)="d.toggle()" type="button">
@@ -19,7 +19,7 @@
 		<tbody>
 			
 			<tr *ngFor="let parasol of listeParasols">
-				<td *ngFor="let item of parasol">
+				<td *ngFor="let item of parasol; let i=index">
 					<span (click)="voirDetail(item[2])" ngbTooltip="{{item[0]}}{{item[0]!=null?'F':''}}{{item[1]}}" tooltipClass="my-custom-class"
 					[ngClass]="{
 						'planning-item': true,

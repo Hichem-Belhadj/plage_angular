@@ -6,6 +6,7 @@ import { DetailComponent } from './detail/detail.component';
 import { ConcessionnaireGuard } from './guard/concessionnaire.guard';
 import { ConnexionGuard } from './guard/connexion.guard';
 import { DeconnexionGuard } from './guard/deconnexion.guard';
+import { LocataireGuard } from './guard/locataire.guard';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { ListeClientComponent } from './liste-client/liste-client.component';
 import { ListeReservationComponent } from './liste-reservation/liste-reservation.component';
@@ -16,7 +17,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 const routes: Routes = [
 	{path:"", component: AccueilComponent},
 	{path:"connexion", component: ConnexionComponent, canActivate: [DeconnexionGuard]},
-	{path:"reservation", component: ReservationComponent, canActivate: [ConnexionGuard]},
+	{path:"reservation", component: ReservationComponent, canActivate: [ConnexionGuard, LocataireGuard]},
 	{path:"inscription", component: InscriptionComponent, canActivate: [DeconnexionGuard]},
 	{path:"liste-reservation", component: ListeReservationComponent, canActivate: [ConnexionGuard]},
 	{path:"liste-client", component: ListeClientComponent, canActivate: [ConnexionGuard, ConcessionnaireGuard]},

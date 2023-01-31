@@ -4,59 +4,31 @@
 	'confirmee': reservation.statut?.nom == 'confirmée',
 	'refusee': reservation.statut?.nom == 'refusée'
 }">{{reservation.statut?.nom}}</span></h1>
-<a routerLink="/liste-reservation" class="btn btn-outline-plage">&#8592; retour à la liste des réservations</a>
+<a routerLink="/liste-reservation" class="btn btn-outline-plage">&#8592; Retour à la liste des réservations</a>
 <div class="card border-0 shadow-lg my-5">
 	<div class="card-body p-5 position-relative pb-5">
 		<h5 class="card-title">Réservation n° {{reservation.id}}</h5>
     	<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
     	<ul class="list-group mb-3">
-			<li class="list-group-item"><span class="detail-list">nom :</span> {{reservation.locataire?.nom}}</li>
+			<li class="list-group-item"><span class="detail-list">Nom :</span> {{reservation.locataire?.nom}}</li>
 			<li class="list-group-item"><span class="detail-list">Prénom :</span> {{reservation.locataire?.prenom}}</li>
 			<li class="list-group-item"><span class="detail-list">Date de début :</span> {{reservation.dateHeureDebut | date: 'dd/MM/yyyy'}}</li>
 			<li class="list-group-item"><span class="detail-list">Date de fin :</span> {{reservation.dateHeureFin | date: 'dd/MM/yyyy'}}</li>
 			<li class="list-group-item"><span class="detail-list">Remarques :</span> {{reservation.remarque}}</li>
-			<li *ngIf="reservation.statut?.nom == 'confirmée'" class="list-group-item"><span class="detail-list">Liste des parasols :</span> 9F1 - 8F1</li>
-			<li *ngIf="reservation.statut?.nom == 'confirmée'" class="list-group-item"><span class="detail-list">Montant :</span> 250 €</li>
+			<li *ngIf="reservation.statut?.nom == 'confirmée'" class="list-group-item"><span class="detail-list">Liste des parasols :</span>
+				<span *ngFor="let parasol of reservation.parasols; let y=index"> {{parasol.numEmplacement}}F{{parasol.file.numero}}{{y==reservation.parasols.length-1?'':' - '}}</span>
+			</li>
+			<li *ngIf="reservation.statut?.nom == 'confirmée'" class="list-group-item"><span class="detail-list">Montant :</span> {{reservation.montantARegler}} €</li>
 		</ul>
 
-		<form #f="ngForm" *ngIf="reservation.statut?.nom == 'à traiter'">
+		<form #f="ngForm" *ngIf="reservation.statut?.nom == 'à traiter' && estConcessionnaire">
 			<div class="affectation mb-3">
 				<p class="card-text">Liste des parasols à affecter :</p>
 				<ul class="list-group">
-					<li class="list-group-item d-flex align-items-center"><span class="detail-list">Parasol 1 - File 1 :</span>
-						<div class="radio">
-							<input type="radio" ngModel required id="p1f1-1" name="aa" value="1">
-							<label ngbTooltip="9F1" tooltipClass="my-custom-class" for="p1f1-1"></label>
-						</div>
-						<div class="radio">
-							<input type="radio" ngModel required id="p1f1-2" name="aa" value="2">
-							<label for="p1f1-2"></label>
-						</div>
-						<div class="radio">
-							<input type="radio" ngModel required id="p1f1-3" name="aa" value="3">
-							<label for="p1f1-3"></label>
-						</div>
-						<div class="radio">
-							<input type="radio" ngModel required id="p1f1-4" name="aa" value="4">
-							<label for="p1f1-4"></label>
-						</div>
-					</li>
-					<li class="list-group-item d-flex align-items-center"><span class="detail-list">Parasol 2 - File 1 :</span>
-						<div class="radio">
-							<input type="radio" ngModel required id="p2f1-1" name="bb" value="1">
-							<label for="p2f1-1"></label>
-						</div>
-						<div class="radio">
-							<input type="radio" ngModel required id="p2f1-2" name="bb" value="2">
-							<label for="p2f1-2"></label>
-						</div>
-						<div class="radio">
-							<input type="radio" ngModel required id="p2f1-3" name="bb" value="3">
-							<label for="p2f1-3"></label>
-						</div>
-						<div class="radio">
-							<input type="radio" ngModel required id="p2f1-4" name="bb" value="4">
-							<label for="p2f1-4"></label>
+					<li *ngFor="let reservation of reservation.demandeReservations;let i=index" class="list-group-item d-flex align-items-center"><span class="detail-list">Parasol {{i+1}} - File {{reservation.numeroFile}} :</span>
+						<div *ngFor="let parasol of listeParasols[reservation.numeroFile-1];let y=index" class="radio">
+							<input type="radio" ngModel required id="{{y}}-{{i}}" name="parasol_{{i}}" value="{{parasol[0]}}">
+							<label ngbTooltip="{{parasol[1]}}F{{parasol[2]}}" tooltipClass="my-custom-class" for="{{y}}-{{i}}"></label>
 						</div>
 					</li>
 				</ul>
